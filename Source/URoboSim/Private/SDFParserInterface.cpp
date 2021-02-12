@@ -6,6 +6,7 @@
 #include "XmlFile.h"
 #include "Conversions.h"
 
+// Add default functionality here for any ISDFParserInterface functions that are not pure virtual.
 // Clear parser
 void ISDFParserInterface::Clear()
 {
@@ -568,4 +569,40 @@ FVector ISDFParserInterface::SizeToFVector(const FString& InSizeData)
 }
 
 
-// Add default functionality here for any ISDFParserInterface functions that are not pure virtual.
+
+// It seems like pure virtual functions can cause some problems https://forums.unrealengine.com/development-discussion/c-gameplay-programming/30570-pure-functions-in-interfaces
+// So I will just implement an non implemented functions for the rest
+
+bool ISDFParserInterface::LoadSDF(const FString& InFilename)
+{
+	return false;
+}
+
+USDFDataAsset * ISDFParserInterface::ParseToNewDataAsset(UObject * InParent, FName InName, EObjectFlags InFlags)
+{
+	return nullptr;
+}
+
+void ISDFParserInterface::ParseSDF()
+{
+}
+
+void ISDFParserInterface::ParseModel(const FXmlNode * InNode)
+{
+}
+
+void ISDFParserInterface::ParseLink(const FXmlNode * InNode, USDFModel *& OutModel)
+{
+}
+
+void ISDFParserInterface::ParseGeometryMesh(const FXmlNode * InNode, USDFGeometry *& OutGeometry, ESDFType Type)
+{
+}
+
+void ISDFParserInterface::ParseVisual(const FXmlNode * InNode, USDFLink *& OutLink)
+{
+}
+
+void ISDFParserInterface::ParseCollision(const FXmlNode * InNode, USDFLink *& OutLink)
+{
+}
