@@ -186,7 +186,8 @@ void URLinkBuilder::SetCollision(USDFCollision* InCollision)
           LinkComponent->AttachToComponent(Link->Collisions[0], FAttachmentTransformRules::KeepWorldTransform);
           LinkComponent->WeldTo(Link->Collisions[0]);
         }
-      LinkComponent->bVisible = false;
+	  LinkComponent->SetVisibility(false);
+      //LinkComponent->bVisible = false; // seems to be a private Variable now (4.25)
       Link->Collisions.Add(LinkComponent);
     }
   else
