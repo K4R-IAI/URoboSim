@@ -448,7 +448,7 @@ float URContinuousConstraintComponent::GetJointVelocityInUUnits()
 
 void URPrismaticConstraintComponent::SetMotorJointState(float TargetPosition, float TargetJointVelocity)
 {
-  SetMotorJointStateInUUnits(-FConversions::MToCm((float)ClampJointStateToConstraintLimit(TargetPosition)), -FConversions::MToCm((float)TargetJointVelocity));
+  //SetMotorJointStateInUUnits(-FConversions::MToCm((float)ClampJointStateToConstraintLimit(TargetPosition)), -FConversions::MToCm((float)TargetJointVelocity));
 }
 
 void URPrismaticConstraintComponent::SetMotorJointStateInUUnits(float TargetPosition, float TargetJointVelocity)
@@ -462,7 +462,7 @@ void URPrismaticConstraintComponent::SetJointPosition(float Angle, FHitResult * 
 {
   Child->AttachToComponent(this, FAttachmentTransformRules::KeepWorldTransform);
 
-  FVector DeltaJointLocationInJointFrame = RefAxis * FConversions::MToCm((float)Angle);
+  FVector DeltaJointLocationInJointFrame = FVector(0, 1, 0);/* RefAxis * FConversions::MToCm((float)Angle);*/
   FVector ChildLocationInJointFrame = DeltaJointLocationInJointFrame + InitChildMeshPoseInJointFrame.GetTranslation();
   Child->SetRelativeLocation(ChildLocationInJointFrame);
 

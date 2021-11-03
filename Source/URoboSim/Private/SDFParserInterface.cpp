@@ -22,6 +22,16 @@ void ISDFParserInterface::Clear()
     }
 }
 
+USDFDataAsset* ISDFParserInterface::ParseToNewDataAsset(UObject* InParent, FName InName, EObjectFlags InFlags)
+{
+    return nullptr;
+}
+
+bool ISDFParserInterface::LoadSDF(const FString& InFilename)
+{
+    return false;
+}
+
 //// Create data asset and parse sdf data into it
 //USDFDataAsset* ISDFParserInterface::ParseToNewDataAsset(UObject* InParent, FName InName, EObjectFlags InFlags)
 //{
@@ -55,6 +65,10 @@ bool ISDFParserInterface::IsValidSDF()
       return false;
     }
   return true;
+}
+
+void ISDFParserInterface::ParseSDF()
+{
 }
 
 // Parse <sdf> node
@@ -215,6 +229,14 @@ bool ISDFParserInterface::IsValidSDF()
 //  OutModel->Links.Add(NewLink);
 //}
 
+void ISDFParserInterface::ParseModel(const FXmlNode* InNode)
+{
+}
+
+void ISDFParserInterface::ParseLink(const FXmlNode* InNode, USDFModel*& OutModel)
+{
+}
+
 // Parse <link> <inertial> node
 void ISDFParserInterface::ParseLinkInertial(const FXmlNode* InNode, USDFLink*& OutLink)
 {
@@ -236,6 +258,14 @@ void ISDFParserInterface::ParseLinkInertial(const FXmlNode* InNode, USDFLink*& O
           continue;
         }
     }
+}
+
+void ISDFParserInterface::ParseVisual(const FXmlNode* InNode, USDFLink*& OutLink)
+{
+}
+
+void ISDFParserInterface::ParseCollision(const FXmlNode* InNode, USDFLink*& OutLink)
+{
 }
 
 // Parse <geometry> node
@@ -267,6 +297,10 @@ void ISDFParserInterface::ParseGeometry(const FXmlNode* InNode, USDFGeometry*& O
           continue;
         }
     }
+}
+
+void ISDFParserInterface::ParseGeometryMesh(const FXmlNode* InNode, USDFGeometry*& OutGeometry, ESDFType Type)
+{
 }
 
 //// Parse <geometry> <mesh> node

@@ -32,26 +32,27 @@ FSDFParser::~FSDFParser()
 // Load sdf from file
 bool FSDFParser::LoadSDF(const FString& InFilename)
 {
-  AssetRegistryModule = FModuleManager::LoadModuleChecked<FAssetRegistryModule>(FName("AssetRegistry"));
-  // Make sure parser is clean
-  Clear();
+  //AssetRegistryModule = FModuleManager::LoadModuleChecked<FAssetRegistryModule>(FName("AssetRegistry"));
+  //// Make sure parser is clean
+  //Clear();
 
-  // Load xml file
-  XmlFile = new FXmlFile(InFilename);
+  //// Load xml file
+  //XmlFile = new FXmlFile(InFilename);
 
-  // Check for valid sdf
-  bSDFLoaded = IsValidSDF();
+  //// Check for valid sdf
+  //bSDFLoaded = IsValidSDF();
 
-  // Set the model directory path
-  SetDirectoryPath(InFilename);
+  //// Set the model directory path
+  //SetDirectoryPath(InFilename);
 
-  // Create fbx factory for loading the meshes
-  FbxFactory = NewObject<UFbxFactory>(UFbxFactory::StaticClass());
+  //// Create fbx factory for loading the meshes
+  //FbxFactory = NewObject<UFbxFactory>(UFbxFactory::StaticClass());
 
-  // If options are to be offered before loading.
-  FbxFactory->EnableShowOption();
+  //// If options are to be offered before loading.
+  //FbxFactory->EnableShowOption();
 
-  return bSDFLoaded;
+  //return bSDFLoaded;
+  return false;
 }
 
 // Clear parser

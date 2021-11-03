@@ -95,7 +95,7 @@ bool URJointTrajectoryController::CheckTrajectoryPoint()
 
 bool URJointTrajectoryController::CheckTrajectoryGoalReached()
 {
-  if (TrajectoryPointIndex >= Trajectory.Num())
+  if ((int)TrajectoryPointIndex >= Trajectory.Num())
   {
     // State = UJointControllerState::Normal;
     SwitchToNormal();
