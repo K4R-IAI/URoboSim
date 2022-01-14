@@ -42,23 +42,7 @@ float URConstraintComponent::GetJointPositionInUUnits()
 
 float URPrismaticConstraintComponent::ClampJointStateToConstraintLimit(float InJointState)
 {
-  float JointValue;
-  float UsedUpper = GetUpperLimit();
-  float UsedLower = GetLowerLimit();
-
-  if(InJointState > UsedUpper)
-    {
-      JointValue =  UsedUpper;
-    }
-  else if(InJointState < UsedLower)
-    {
-      JointValue =  UsedLower;
-    }
-  else
-    {
-      JointValue = InJointState;
-    }
-  return JointValue;
+  return InJointState;
 }
 
 float URRevoluteConstraintComponent::ClampJointStateToConstraintLimit(float InJointState)
@@ -464,7 +448,9 @@ void URPrismaticConstraintComponent::SetJointPosition(float Angle, FHitResult * 
 
   FVector DeltaJointLocationInJointFrame = RefAxis * FConversions::MToCm((float)Angle);
   FVector ChildLocationInJointFrame = DeltaJointLocationInJointFrame + InitChildMeshPoseInJointFrame.GetTranslation();
-  Child->SetRelativeLocation(ChildLocationInJointFrame);
+  // FQuat DeltaJointRotationInJointFrame = UKismetMathLibrary::RotatorFromAxisAndAngle(RefAxis, -FConversions::MToCm((float)Angle)).Quaternion();
+  // FQuat ChildRotationInJointFrame = DeltaJointRotationInJointFrame * InitChildMeshPoseInJointFrame.GetRotation();
+  Child->SetRelativeLocationAndRotation(ChildLocationInJointFrame, InitChildMeshPoseInJointFrame.GetRotation());
 
   Child->AttachToComponent(Parent, FAttachmentTransformRules::KeepWorldTransform);
 

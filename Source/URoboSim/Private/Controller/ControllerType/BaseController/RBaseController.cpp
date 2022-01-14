@@ -84,23 +84,24 @@ void URBaseController::TurnTick(float InDeltaTime)
   TargetAngle *= TargetPose.GetRotation().GetRotationAxis().Z;
   float CurrentAngle = BaseRotation.GetRotationAxis().Z * BaseRotation.GetAngle();
 
-  float AngularDistance = TargetAngle - CurrentAngle;
+  float AngularDistance = (TargetAngle - CurrentAngle) / PI * 180;
   //Normalize the AngularDistance in Interval [-pi, pi]
-  while(AngularDistance > PI)
-    {
-      AngularDistance -= 2* PI;
-    }
-  while(AngularDistance < -1 * PI)
-    {
-      AngularDistance += 2* PI;
-    }
+  // while(AngularDistance > PI)
+  //   {
+  //     AngularDistance -= 2* PI;
+  //   }
+  // while(AngularDistance < -1 * PI)
+  //   {
+  //     AngularDistance += 2* PI;
+  //   }
 
-  FVector NextVel = FVector(0.0f, 0.0f, AngularDistance / InDeltaTime);
+  // FVector NextVel = FVector(0.0f, 0.0f, AngularDistance / InDeltaTime);
   // if(NextVel.Size() > MaxAngularVelocity)
   //   {
   //     NextVel = NextVel.GetClampedToMaxSize(MaxAngularVelocity);
   //   }
-  Base->GetCollision()->SetPhysicsAngularVelocityInRadians(NextVel * HackRotationFactor);
+  // Base->GetCollision()->SetPhysicsAngularVelocityInRadians(NextVel * HackRotationFactor);
+  Base->GetCollision()->AddWorldRotation(FRotator(0.f, FRotator::NormalizeAxis(AngularDistance), 0.f));
 }
 
 void URBaseController::MoveLinearTick(float InDeltaTime)
@@ -133,7 +134,8 @@ void URBaseController::MoveLinearTick(float InDeltaTime)
 
   NextVel /= InDeltaTime;
 
-  Base->GetCollision()->SetPhysicsLinearVelocity(NextVel * HackLinearFactor);
+  // Base->GetCollision()->SetPhysicsLinearVelocity(NextVel * HackLinearFactor);
+  Base->GetCollision()->AddWorldOffset(TargetPose.GetLocation() - Base->GetCollision()->GetComponentLocation());
 }
 
 void URBaseController::CalculateOdomStates(float InDeltaTime)

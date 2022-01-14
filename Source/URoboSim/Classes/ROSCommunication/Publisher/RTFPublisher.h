@@ -40,11 +40,12 @@ public:
   UPROPERTY(EditAnywhere)
   FString MapFrameId;
 
+  UPROPERTY(EditAnywhere)
+  TArray<TSoftObjectPtr<AActor>> Objects;
+
 protected:
   virtual void AddObject(AActor* InObject);
 
-  virtual void SetObjects(TArray<AActor*> InObjects);
-
-private:
-  TArray<AActor*> Objects;
+  virtual void SetObjects(TArray<TSoftObjectPtr<AActor>> InObjects);
+  
 };

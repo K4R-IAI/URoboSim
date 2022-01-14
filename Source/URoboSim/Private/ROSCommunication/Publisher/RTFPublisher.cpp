@@ -35,7 +35,7 @@ void URTFPublisher::AddObject(AActor *InObject)
   }
 }
 
-void URTFPublisher::SetObjects(TArray<AActor *> InObjects)
+void URTFPublisher::SetObjects(TArray<TSoftObjectPtr<AActor>> InObjects)
 {
   Objects = InObjects;
 }
@@ -48,7 +48,7 @@ void URTFPublisher::Publish()
 
   geometry_msgs::Transform ObjectTransfMsg;
   geometry_msgs::TransformStamped ObjectFrame;
-  for (AActor *&Object : Objects)
+  for (TSoftObjectPtr<AActor> Object : Objects)
   {
     UE_LOG(LogRTFPublisher, Error, TEXT("tf publish %s"), *Object->GetName());
     ObjectFrame.SetHeader(std_msgs::Header(Seq, FROSTime(), MapFrameId));
