@@ -98,17 +98,17 @@ bool URJointTrajectoryController::CheckTrajectoryGoalReached()
   if (TrajectoryPointIndex >= Trajectory.Num())
   {
     // State = UJointControllerState::Normal;
-    SwitchToNormal();
+    SwitchToNormal(); 
 
     GoalStatusList.Last().Status = 3;
     if( ActionFinished.IsBound() )
-      {
-        UE_LOG(LogTemp, Error, TEXT("JointTrjac Result is bound"));
-      }
+    {
+      UE_LOG(LogTemp, Error, TEXT("JointTrjac Result is bound"));
+    }
     else
-      {
-        UE_LOG(LogTemp, Error, TEXT("JointTrjac Result not bound"));
-      }
+    {
+      UE_LOG(LogTemp, Error, TEXT("JointTrjac Result not bound"));
+    }
 
     ActionFinished.Broadcast(GoalStatusList.Last());
 
@@ -183,13 +183,28 @@ void URJointTrajectoryController::Tick(const float &InDeltaTime)
       Joint->UpdateEncoder();
     }
 
-    if (State == UJointControllerState::FollowJointTrajectory)
+    if (!bCancel && State == UJointControllerState::FollowJointTrajectory)
     {
       ActionDuration += SpeedFactor * InDeltaTime;
       if (!CheckTrajectoryPoint() || !CheckTrajectoryGoalReached())
       {
         UpdateDesiredJointAngle(InDeltaTime);
       }
+    }
+    else if (bCancel)
+    {
+      SwitchToNormal();
+      for (TPair<FString, FJointState> &DesiredJointState : DesiredJointStates)
+      {
+        FString JointName = DesiredJointState.Key;
+        FJointState &JointState = DesiredJointState.Value;
+        if (OldTrajectoryPoints.JointStates.Contains(JointName))
+        {
+          JointState.JointPosition = OldTrajectoryPoints.JointStates[JointName].JointPosition;
+          JointState.JointVelocity = 0.f;
+        }
+      }
+      bCancel = false;
     }
     MoveJoints(InDeltaTime);
   }
@@ -216,13 +231,13 @@ bool URJointTrajectoryController::SwitchToNormal()
 {
   switch (State)
   {
-  case UJointControllerState::FollowJointTrajectory:
-    State = UJointControllerState::Normal;
-    break;
+    case UJointControllerState::FollowJointTrajectory:
+      State = UJointControllerState::Normal;
+      break;
 
-  case UJointControllerState::Normal:
-    UE_LOG(LogRJointTrajectoryController, Warning, TEXT("Trajectory already in NormalMode."));
-    break;
+    case UJointControllerState::Normal:
+      UE_LOG(LogRJointTrajectoryController, Warning, TEXT("Trajectory already in NormalMode."));
+      break;
   }
 
   return true;

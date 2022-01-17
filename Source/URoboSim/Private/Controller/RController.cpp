@@ -6,6 +6,7 @@ DEFINE_LOG_CATEGORY_STATIC(LogRController, Log, All);
 void URController::Init()
 {
   SetOwner();
+  bCancel = false;
 }
 
 void URController::SetOwner()

@@ -28,6 +28,7 @@ void FActionCancelSubscriberCallback::Callback(TSharedPtr<FROSBridgeMsg> Msg)
   if (Controller)
   {
     Controller->bCancel = true;
+    UE_LOG(LogRActionCancelSubscriber, Warning, TEXT("Cancel is sent!!!"));
   }
   else
   {

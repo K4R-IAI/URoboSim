@@ -50,7 +50,6 @@ void URTFPublisher::Publish()
   geometry_msgs::TransformStamped ObjectFrame;
   for (TSoftObjectPtr<AActor> Object : Objects)
   {
-    UE_LOG(LogRTFPublisher, Error, TEXT("tf publish %s"), *Object->GetName());
     ObjectFrame.SetHeader(std_msgs::Header(Seq, FROSTime(), MapFrameId));
     ObjectFrame.SetChildFrameId(Object->GetName());
 
